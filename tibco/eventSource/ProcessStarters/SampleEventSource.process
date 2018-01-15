@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="www.tibco.com/plugin/java/JavaMethodActivityInput" xmlns:ns1="www.tibco.com/bw/plugin/java/JavaEventSource">
+    <pd:name>ProcessStarters/SampleEventSource.process</pd:name>
+    <pd:startName>Java Event Source</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="Java Event Source">
+        <pd:type>com.tibco.plugin.java.JavaEventSource</pd:type>
+        <pd:resourceType>ae.activities.JavaEventSource</pd:resourceType>
+        <pd:x>162</pd:x>
+        <pd:y>132</pd:y>
+        <config>
+            <packageName/>
+            <fileName/>
+            <fullsource/>
+            <externalClass>true</externalClass>
+            <fileName_archive>ProcessStarters.SampleEventSource</fileName_archive>
+            <packageName_archive>ProcessStarters.SampleEventSource</packageName_archive>
+            <SelectorClassName>
+                <classLocation>c:/dev/sample/eventsource/sharedresources/lib/sampleeventsource-1.0.0-snapshot.jar</classLocation>
+                <classPath>/SharedResources/AliasLibrary.aliaslib</classPath>
+                <className>com.eventsource.ProcessStarter</className>
+                <methodName>initProcess</methodName>
+                <methodReturn>void</methodReturn>
+                <methodParameter>java.lang.String</methodParameter>
+            </SelectorClassName>
+            <java_source_archive/>
+            <InitMethodParameters>
+                <row>
+                    <ParameterName>Parameter1</ParameterName>
+                    <ParameterType>string</ParameterType>
+                    <ParameterValue>'ExampleEventSource'</ParameterValue>
+                </row>
+            </InitMethodParameters>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>524</pd:endX>
+    <pd:endY>138</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1515997411172</pd:targetNamespace>
+    <pd:activity name="GetMessage">
+        <pd:type>com.tibco.plugin.java.JavaMethodActivity</pd:type>
+        <pd:resourceType>ae.activities.JavaMethodActivity</pd:resourceType>
+        <pd:x>334</pd:x>
+        <pd:y>134</pd:y>
+        <config>
+            <ConstructDeclaredClass>true</ConstructDeclaredClass>
+            <CacheConstructedClass>true</CacheConstructedClass>
+            <InvokeCleanupMethod>false</InvokeCleanupMethod>
+            <CleanupMethod/>
+            <MethodInfo>
+                <classLocation>c:/dev/sample/eventsource/sharedresources/lib/sampleeventsource-1.0.0-snapshot.jar</classLocation>
+                <classPath>/SharedResources/AliasLibrary.aliaslib</classPath>
+                <className>com.eventsource.MessageProcessor</className>
+                <methodName>getMessageBodyAsString</methodName>
+                <methodReturn>java.lang.String</methodReturn>
+                <methodParameter>java.lang.Object</methodParameter>
+            </MethodInfo>
+        </config>
+        <pd:inputBindings>
+            <ns:JavaMethodActivityInput>
+                <MethodParameters>
+                    <Parameter1>
+                        <xsl:value-of select="$Java-Event-Source/ns1:JavaEventSourceOutput/javaObject"/>
+                    </Parameter1>
+                </MethodParameters>
+            </ns:JavaMethodActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Java Event Source</pd:from>
+        <pd:to>GetMessage</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetMessage</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
